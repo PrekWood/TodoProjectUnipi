@@ -33,7 +33,7 @@ describe 'Todo Item Get Single API', type: :request do
 
     # update
     new_text = 'new_content'
-    put '/todos/'+todo_id.to_s+'/items?text='+new_text
+    put '/todos/'+todo_item_id.to_s+'/items?text='+new_text
     expect(response).to have_http_status(:ok)
 
     # get todo_item_id

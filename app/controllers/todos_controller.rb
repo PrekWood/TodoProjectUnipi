@@ -60,7 +60,7 @@ class TodosController < ApplicationController
     render json:{
       status: "success",
       todo: @todo,
-      items: TodoItem.where(todo_id: @todo.id)
+      items: TodoItem.where(todo_id: @todo.id).order(:todo_id)
     }, status: :ok
   end
 

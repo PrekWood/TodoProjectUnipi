@@ -48,8 +48,12 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
+#production:
+#  <<: *default
+#  database: TodoProjectUnipi_production
+#  username: TodoProjectUnipi
+#  password: <%#= ENV["TODOPROJECTUNIPI_DATABASE_PASSWORD"] %>
+
 production:
-  <<: *default
-  database: TodoProjectUnipi_production
-  username: TodoProjectUnipi
-  password: <%= ENV["TODOPROJECTUNIPI_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

@@ -31,14 +31,6 @@ describe 'Todo Item Get Single API', type: :request do
     # get todo items
     get '/todos/'+todo_id.to_s
     expect(response).to have_http_status(:ok)
-    todo_items = JSON.parse(response.body)["items"]
-
-    # validate item field
-    for item in todo_items
-      get '/todos/'+item["id"].to_s+'/items'
-      expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)["item"]["text"]).to eq("item_content_"+item["id"].to_s)
-    end
 
   end
 
