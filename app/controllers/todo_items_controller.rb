@@ -13,6 +13,13 @@ class TodoItemsController < ApplicationController
       return
     end
 
+    # check if user owns todo
+    @todo = Todo.find(@item.todo_id)
+    if @todo.user_id != session[:user_id]
+      render json: { status: "error", error: "This todo doesn't belong to you"}, status: :bad_request
+      return
+    end
+
     render json: { status: "success", item: @item}
   end
 

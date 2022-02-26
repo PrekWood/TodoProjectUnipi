@@ -98,7 +98,7 @@ describe 'Todo Item Get Single API', type: :request do
     expect(response).to have_http_status(:created)
 
     # get todo item
-    get '/todos/'+todo_item_id.to_s
+    get '/todos/'+todo_item_id.to_s+'/items'
     expect(response).to have_http_status(:bad_request)
 
   end
