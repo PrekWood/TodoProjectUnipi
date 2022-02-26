@@ -14,6 +14,11 @@
 
 https://github.com/PrekWood/TodoProjectUnipi
 
+OPENAPI SWAGGER DOCUMENTATION
+
+https://app.swaggerhub.com/apis/PrekWood/TodoAPIUnipi/1.0.0-oas3
+
+
 ΠΑΡΑΔΟΧΕΣ
 
 Για την ευκολότερη διαχείρηση των παραμέτρων στους controllers και προκειμένου οι κλήσεις στο API μας να έχουν το επιθυμητό REST format, παρακάμψαμε την λογική των strong parameters της Rails και εφαρμόσαμε το δικό μας validation στις παραμέτρους του API.

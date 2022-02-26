@@ -1,0 +1,449 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Todo API (Software as a service)",
+    "description": "Το παρακάτω API αποτελεί την εργασία για το μάθημα Software as a service του Πανεπιστημίου Πειραιώς \n\nΟΜΑΔΑ\n\nΠρέκας Νικόλαος Π18130\nΗλίας Μπρίνιας Π18112\nΜήτσος Νικόλαος Π18102\n\nΣΥΝΤΟΜΗ ΠΕΡΙΓΡΑΦΗ\n\nΤο API δημιουργήθηκε πάνω στο framework της Ruby on Rails (v.7.0.2.2), ώς βάση δεδομένων χρησιμοποιήθηκε η MySQL (v.8.0.28), ενώ προκειμένου να υλοποιηθεί το πρότυπο του Test driven development χρησιμοποιήθηκε το gem Rspec (v.3.11) του Rails (Όλα τα tests θα τα βρείτε στο directory /spec). Για το deployment της εφαρμογής χρησιμοποιήθηκε το Heroku. Τον κώδικα του project θα τον βρείτε στο github.\n\nhttps://github.com/PrekWood/TodoProjectUnipi\n\nΠΑΡΑΔΟΧΕΣ\n\nΓια την ευκολότερη διαχείρηση των παραμέτρων στους controllers και προκειμένου οι κλήσεις στο API μας να έχουν το επιθυμητό REST format, παρακάμψαμε την λογική των strong parameters της Rails και εφαρμόσαμε το δικό μας validation στις παραμέτρους του API.\n",
+    "contact": {
+      "name": "Developer Support",
+      "email": "nikosprek2000@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0-oas3"
+  },
+  "servers": [
+    {
+      "url": "https://saas-project-unipi.herokuapp.com/",
+      "description": "Production server (uses live data)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Todo"
+    },
+    {
+      "name": "Todo Items"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Εγγραφή νέου χρήστη",
+        "description": "Για την διαχείρηση των κωδικών του χρήστη χρησιμοποιήθηκε το gem bcrypt και το has_secure_password στο μοντέλο του χρήστη.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "test@gmail.com"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created, όταν ο χρήστης εγγράφεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν δεν έχουν συμπληρωθεί σωστά τα πεδία email και password"
+          },
+          "422": {
+            "description": "Unprocessable Entity, όταν αντιμετοπίζεται κάποιο σφάλμα στα πεδία email και password (π.χ. το email χρησιμοποιείται ήδη)"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Σύνδεση εγγεγραμμένου χρήστη",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "test@gmail.com"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, όταν ο χρήστης συνδέεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν δεν έχουν συμπληρωθεί σωστά τα πεδία email και password ή δεν αντιστοιχούν σε κάποιο χρήστη"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Αποσύνδεση χρήστη",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "test@gmail.com"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, όταν ο χρήστης αποσυνδέεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος"
+          }
+        }
+      }
+    },
+    "/todos": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Λίστες todo",
+        "responses": {
+          "200": {
+            "description": "OK, και επιστρέφονται οι λίστες todo του χρήστη"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Δημιουργία λίστας todo",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Super Market Items"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "When you go to the super market do not forget the following."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created, όταν η λίστα καταχωρείται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή οταν τα πεδία name και description δεν έχουν οριστεί σωστά"
+          },
+          "422": {
+            "description": "Unprocessable Entity, όταν αντιμετοπίζεται κάποιο σφάλμα στα πεδία name και description"
+          }
+        }
+      }
+    },
+    "/todos/{id}": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Ανάκτηση όλων των δεδομένων μίας λίστας todo με βάση το id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id της λίστας",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, και επιστρέφονται οι λίστες todo του χρήστη"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε λίστα todo <br>ή η λίστα ανοίκει σε άλλο χρήστη"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Ενημέρωση λίστας todo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id της λίστας",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Super Market Items"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "When you go to the super market do not forget the following."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ΟΚ, όταν η λίστα ενημερώνεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε λίστα todo <br>ή η λίστα ανοίκει σε άλλο χρήστη"
+          },
+          "422": {
+            "description": "Unprocessable Entity, όταν αντιμετοπίζεται κάποιο σφάλμα στα πεδία name και description"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Διαγραφή μίας λίστας todo και των items της με βάση το id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id της λίστας",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, όταν η λίστα και τα items διαγράφονται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε λίστα todo <br>ή η λίστα ανοίκει σε άλλο χρήστη"
+          },
+          "422": {
+            "description": "Unprocessable Entity, όταν αντιμετοπίζεται κάποιο σφάλμα στα πεδία της λίστας"
+          }
+        }
+      }
+    },
+    "/todos/{id}/items": {
+      "get": {
+        "tags": [
+          "Todo Items"
+        ],
+        "summary": "Ανάκτηση όλων των δεδομένων ενός item με βάση το id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id του item",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, και επιστρέφονται τα δεδομένα του item"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε todo item <br>ή το item ανοίκει σε άλλο χρήστη"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Todo Items"
+        ],
+        "summary": "Ενημέρωση ενός item με βάση το id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id του item",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, όταν το item ενημερώνεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε todo item <br>ή το item ανοίκει σε άλλο χρήστη"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Todo Items"
+        ],
+        "summary": "Δημιουργία ενός todo item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id της λιστας todo",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "text",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Coca Cola"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created, όταν δημιουργείται επιτυχώς το item"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε todo item <br>ή η λίστα ανοίκει σε άλλο χρήστη <br>ή το πεδίο text δεν είναι σωστό"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Todo Items"
+        ],
+        "summary": "Διαγραφή ενός item με βάση το id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Μοναδικός αριθμός Id του item",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, όταν το item διαγράφεται επιτυχώς"
+          },
+          "400": {
+            "description": "Bad Request, όταν ο χρήστης δεν είναι συνδεδεμένος <br>ή όταν το πεδίο {id} δεν αντιστοιχεί σε todo item <br>ή το item ανοίκει σε άλλο χρήστη"
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}
