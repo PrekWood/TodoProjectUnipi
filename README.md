@@ -1,24 +1,19 @@
-# README
+# Todo API (Software as a service)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Το παρακάτω API αποτελεί την εργασία για το μάθημα Software as a service του Πανεπιστημίου Πειραιώς
 
-Things you may want to cover:
+ΟΜΑΔΑ
 
-* Ruby version
+Πρέκας Νικόλαος Π18130
+Ηλίας Μπρίνιας Π18112
+Μήτσος Νικόλαος Π18102
 
-* System dependencies
+ΣΥΝΤΟΜΗ ΠΕΡΙΓΡΑΦΗ
 
-* Configuration
+Το API δημιουργήθηκε πάνω στο framework της Ruby on Rails (v.7.0.2.2), ώς βάση δεδομένων χρησιμοποιήθηκε η MySQL (v.8.0.28), ενώ προκειμένου να υλοποιηθεί το πρότυπο του Test driven development χρησιμοποιήθηκε το gem Rspec (v.3.11) του Rails (Όλα τα tests θα τα βρείτε στο directory /spec). Για το deployment της εφαρμογής χρησιμοποιήθηκε το Heroku. Τον κώδικα του project θα τον βρείτε στο github.
 
-* Database creation
+https://github.com/PrekWood/TodoProjectUnipi
 
-* Database initialization
+ΠΑΡΑΔΟΧΕΣ
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Για την ευκολότερη διαχείρηση των παραμέτρων στους controllers και προκειμένου οι κλήσεις στο API μας να έχουν το επιθυμητό REST format, παρακάμψαμε την λογική των strong parameters της Rails και εφαρμόσαμε το δικό μας validation στις παραμέτρους του API.
