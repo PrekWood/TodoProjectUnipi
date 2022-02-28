@@ -31,7 +31,7 @@ class TodosController < ApplicationController
     # Todo creation
     @todo = Todo.new(name:params[:name], description:params[:description], user_id:session[:user_id])
     if @todo.save
-      render json: { status: "success", message: "Your todo was successfully created"}, status: :created
+      render json: { status: "success", message: "Your todo was successfully created", todo:@todo}, status: :created
     else
       render json: { status: "error", error: @todo.errors}, status: :unprocessable_entity
     end

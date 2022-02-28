@@ -1,0 +1,37 @@
+
+// SIGNUP
+http POST saas-project-unipi.herokuapp.com/signup email=new@testtest.com password=123456 --session=test_session.json
+http POST saas-project-unipi.herokuapp.com/signup email=new@testtest.com password=123456 --session=test_session.json
+
+// LOGIN
+http POST saas-project-unipi.herokuapp.com/auth/login email=new@test.com password=123456 --session=test_session.json
+
+// LOGOUT
+http GET saas-project-unipi.herokuapp.com/auth/logout --session=test_session.json
+
+// TODOS LIST
+http GET saas-project-unipi.herokuapp.com/todos --session=test_session.json
+
+// TODOS CREATE
+http POST saas-project-unipi.herokuapp.com/todos name="Super Market List" description="Super Market Description" --session=test_session.json
+
+// TODOS GET SINGLE
+http GET saas-project-unipi.herokuapp.com/todos/, --session=test_session.json
+
+// TODOS UPDATE
+http PUT saas-project-unipi.herokuapp.com/todos/ name="Super Market Changed" description="Super Market Changed" --session=test_session.json
+
+// TODOS DELETE
+http DELETE saas-project-unipi.herokuapp.com/todos/ --session=test_session.json
+
+// TODOS ITEM CREATE
+http POST saas-project-unipi.herokuapp.com/todos//items text="Milk" --session=test_session.json
+
+// TODOS ITEM GET
+http GET saas-project-unipi.herokuapp.com/todos//items --session=test_session.json
+
+// TODOS ITEM UPDATE
+http PUT saas-project-unipi.herokuapp.com/todos/34/items text="Almond Milk" --session=test_session.json
+
+// TODOS ITEM DELETE
+http DELETE saas-project-unipi.herokuapp.com/todos/2/items --session=test_session.json

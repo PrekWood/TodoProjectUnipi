@@ -119,7 +119,7 @@ class TodoItemsController < ApplicationController
     # Todo creation
     @item = TodoItem.new(text:params[:text], todo_id:@todo.id)
     if @item.save
-      render json: { status: "success", message: "Your todo item was successfully created"}, status: :created
+      render json: { status: "success", message: "Your todo item was successfully created", item:@item}, status: :created
     else
       render json: { status: "error", error: @todo.errors}, status: :unprocessable_entity
     end
